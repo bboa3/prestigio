@@ -10,4 +10,14 @@
     "github.copilot.advanced": {
         "enabled": true,
     },
+    "files.exclude": {
+        "**/.git": true,
+        "**/node_modules/*/**": true,
+        "**/.amplify/*/**": true,
+        "**/build/*/**": true,
+        "**/.next/*/**": true
+    },
+    "cSpell.words": [
+        "Prestigio"
+    ]
 }

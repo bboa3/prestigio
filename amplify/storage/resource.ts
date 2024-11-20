@@ -1,9 +1,16 @@
 import { defineStorage } from '@aws-amplify/backend';
 
 export const storage = defineStorage({
-  name: 'EnerminaApp',
+  name: 'PrestigioApp',
+  isDefault: true,
   access: (allow) => ({
-    'users/*': [allow.authenticated.to(['read', 'delete','write'])],
-    'article/*': [allow.authenticated.to(['read', 'delete', 'write'])],
+    'users/*': [
+      allow.guest.to(['read']),
+      allow.authenticated.to(['read', 'delete', 'write'])
+    ],
+    'article/*': [
+      allow.guest.to(['read']),
+      allow.authenticated.to(['read', 'delete', 'write'])
+    ],
   }),
 });
