@@ -1,0 +1,13 @@
+{
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.organizeImports": "explicit"
+    },
+    "diffEditor.codeLens": true,
+    "github.copilot.advanced": {
+        "enabled": true,
+    },
+}

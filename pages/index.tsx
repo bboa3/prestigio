@@ -1,25 +1,21 @@
-import { useState, useEffect } from "react";
-import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
+import useArticles from "@/hooks/store/useArticles";
+import { ArticleStatus } from "@/types/schema";
+import { generateClient } from "aws-amplify/data";
 
 const client = generateClient<Schema>();
 
 export default function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-
-  function listTodos() {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
-  }
-
-  useEffect(() => {
-    listTodos();
-  }, []);
+  const { articles } = useArticles()
 
   function createTodo() {
-    client.models.Todo.create({
-      content: window.prompt("Todo content"),
+    client.models.article.create({
+      title: 'New todo',
+      slug: 'new-todo',
+      excerpt: 'New todo',
+      authorId: '1',
+      status: ArticleStatus.DRAFT,
+      tags: ['tag1', 'tag2'],
     });
   }
 
@@ -28,8 +24,8 @@ export default function App() {
       <h1>My todos</h1>
       <button onClick={createTodo}>+ new</button>
       <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+        {articles.map((todo) => (
+          <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
       <div>
