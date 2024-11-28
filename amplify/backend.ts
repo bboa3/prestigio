@@ -2,15 +2,25 @@ import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { addOrUpdateSearchableRecord } from './functions/add-or-update-searchable-record/resource';
+import { addUserToGroup } from './functions/add-user-to-group/resource';
+import { adminCreateUser } from './functions/admin-create-user/resource';
 import { deleteSearchableRecord } from './functions/delete-searchable-record/resource';
-import { storage } from './storage/resource';
 
 const backend = defineBackend({
   auth,
   data,
-  storage,
+  addUserToGroup,
+  adminCreateUser,
   addOrUpdateSearchableRecord,
   deleteSearchableRecord
+});
+
+
+backend.addOutput({
+  storage: {
+    aws_region: "us-east-1",
+    bucket_name: "prestigio-mz"
+  },
 });
 
 const { cfnUserPool } = backend.auth.resources.cfnResources

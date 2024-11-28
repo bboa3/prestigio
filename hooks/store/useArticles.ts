@@ -1,4 +1,5 @@
 import { Schema } from '@/amplify/data/resource';
+import { useAuth } from '@/Context/AuthContext';
 import { Article, ListOptions } from '@/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ function useArticles(options?: ListOptions) {
   const [loading, setLoading] = useState<boolean>(true);
   const [nextToken, setNextToken] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -35,7 +37,7 @@ function useArticles(options?: ListOptions) {
     };
 
     fetchArticles();
-  }, [options]);
+  }, [options, user]);
 
   return { articles, loading, error, nextToken };
 }

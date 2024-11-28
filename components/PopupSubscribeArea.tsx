@@ -1,5 +1,5 @@
 "use client";
-import popupSubImg from '@assets/img/normal/popup_subscribe.jpg';
+import popupSubImg from '@/assets/img/normal/popup_subscribe.jpg';
 import Image from 'next/image';
 import React from 'react';
 

@@ -1,8 +1,8 @@
-import blog521Img from '@assets/img/blog/blog_5_2_1.jpg';
-import blog522Img from '@assets/img/blog/blog_5_2_2.jpg';
-import blog523Img from '@assets/img/blog/blog_5_2_3.jpg';
-import blog524Img from '@assets/img/blog/blog_5_2_4.jpg';
-import blog57Img from '@assets/img/blog/blog_5_7.jpg';
+import blog521Img from '@/assets/img/blog/blog_5_2_1.jpg';
+import blog522Img from '@/assets/img/blog/blog_5_2_2.jpg';
+import blog523Img from '@/assets/img/blog/blog_5_2_3.jpg';
+import blog524Img from '@/assets/img/blog/blog_5_2_4.jpg';
+import blog57Img from '@/assets/img/blog/blog_5_7.jpg';
 import Image from 'next/image';
 import React from 'react';
 

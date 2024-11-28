@@ -1,10 +1,10 @@
-import blog15Img from '@assets/img/blog/blog_1_15.jpg';
-import blog16Img from '@assets/img/blog/blog_1_16.jpg';
-import blog23Img from '@assets/img/blog/blog_2_3.jpg';
-import blog321Img from '@assets/img/blog/blog_3_2_1.jpg';
-import blog322Img from '@assets/img/blog/blog_3_2_2.jpg';
-import blog323Img from '@assets/img/blog/blog_3_2_3.jpg';
-import blog324Img from '@assets/img/blog/blog_3_2_4.jpg';
+import blog15Img from '@/assets/img/blog/blog_1_15.jpg';
+import blog16Img from '@/assets/img/blog/blog_1_16.jpg';
+import blog23Img from '@/assets/img/blog/blog_2_3.jpg';
+import blog321Img from '@/assets/img/blog/blog_3_2_1.jpg';
+import blog322Img from '@/assets/img/blog/blog_3_2_2.jpg';
+import blog323Img from '@/assets/img/blog/blog_3_2_3.jpg';
+import blog324Img from '@/assets/img/blog/blog_3_2_4.jpg';
 import Image from 'next/image';
 import React from 'react';
 

@@ -1,40 +1,33 @@
-import type { Schema } from "@/amplify/data/resource";
+import Ads from "@/components/Home/Ads";
+import BlogArea from "@/components/Home/BlogAreaFirstSection";
+import BlogAreaSecondSection from "@/components/Home/BlogAreaSecondSection";
+import BlogAreaThirdSection from "@/components/Home/BlogAreaThirdSection";
+import EditorChoice from "@/components/Home/EditorChoice";
+import Favorite from "@/components/Home/Favorite";
+import SimpleLayout from "@/components/Layout/SimpleLayout";
 import useArticles from "@/hooks/store/useArticles";
 import { ArticleStatus } from "@/types/schema";
-import { generateClient } from "aws-amplify/data";
-
-const client = generateClient<Schema>();
+import { useMemo } from "react";
 
 export default function App() {
-  const { articles } = useArticles()
-
-  function createTodo() {
-    client.models.article.create({
-      title: 'New todo',
-      slug: 'new-todo',
-      excerpt: 'New todo',
-      authorId: '1',
-      status: ArticleStatus.DRAFT,
-      tags: ['tag1', 'tag2'],
-    });
-  }
+  const nowArticlesOption = useMemo(() => ({
+    filter: { isDeleted: { eq: false }, status: { eq: ArticleStatus.PUBLISHED } },
+    limit: 5
+  }), []);
+  const { articles: now } = useArticles(nowArticlesOption);
 
   return (
-    <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {articles.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/gen2/start/quickstart/nextjs-pages-router/">
-          Review next steps of this tutorial.
-        </a>
-      </div>
-    </main>
+    <SimpleLayout
+      title='Revista - Prestígio'
+      description='Revista Prestígio - Revista de economia, negócios, desporto e cultura em moçambique'
+      keywords='Revista Prestígio, Revista, economia, negócios, desporto, cultura, moçambique'
+    >
+      <BlogArea />
+      <BlogAreaSecondSection />
+      <Ads />
+      <BlogAreaThirdSection />
+      <EditorChoice />
+      <Favorite />
+    </SimpleLayout>
   );
 }

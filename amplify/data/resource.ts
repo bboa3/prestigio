@@ -1,5 +1,8 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { postConfirmation } from '../auth/post-confirmation/resource';
 import { addOrUpdateSearchableRecord } from '../functions/add-or-update-searchable-record/resource';
+import { addUserToGroup } from '../functions/add-user-to-group/resource';
+import { adminCreateUser } from '../functions/admin-create-user/resource';
 import { deleteSearchableRecord } from '../functions/delete-searchable-record/resource';
 
 const userRoles = ['ADMIN', 'EDITOR', 'AUTHOR', 'SUBSCRIBER'] as const;
@@ -10,6 +13,24 @@ const schema = a.schema({
   genericAPIResponse: a.customType({
     content: a.string()
   }),
+  addUserToGroup: a
+    .mutation()
+    .arguments({
+      userId: a.string().required(),
+      groupName: a.string().required(),
+    })
+    .returns(a.ref('genericAPIResponse'))
+    .handler(a.handler.function(addUserToGroup))
+    .authorization((allow) => [allow.group('ADMIN')]),
+  adminCreateUser: a
+    .mutation()
+    .arguments({
+      email: a.string().required(),
+      password: a.string().required(),
+    })
+    .authorization((allow) => [allow.group('ADMIN')])
+    .handler(a.handler.function(adminCreateUser))
+    .returns(a.ref('genericAPIResponse')),
   addOrUpdateSearchableRecord: a
     .mutation()
     .arguments({
@@ -33,18 +54,20 @@ const schema = a.schema({
   user: a.model({
     id: a.id().required(),
     authId: a.string().required(),
-    name: a.string().required(),
     email: a.string().required(),
+    name: a.string(),
+    phone: a.string(),
     role: a.enum(userRoles),
     profilePicture: a.string(),
     bio: a.string(),
+    isDeleted: a.boolean().required().default(false),
     articles: a.hasMany('article', 'authorId'),
     comments: a.hasMany('comment', 'authorId'),
     likes: a.hasMany('like', 'userId'),
     views: a.hasMany('view', 'userId'),
     notifications: a.hasMany('notification', 'userId'),
   }).authorization(allow => [
-    allow.owner().to(['read', 'update']),
+    allow.ownerDefinedIn('authId').to(['read', 'update']),
     allow.groups(['EDITOR', 'ADMIN']).to(['create', 'read', 'update']),
   ]),
 
@@ -57,6 +80,7 @@ const schema = a.schema({
     status: a.enum(articleStatuses),
     tags: a.string().required().array().required(),
     publishedAt: a.datetime(),
+    isDeleted: a.boolean().default(false),
     featuredImage: a.hasOne('media', 'articleId'),
     comments: a.hasMany('comment', 'articleId'),
     likes: a.hasMany('like', 'articleId'),
@@ -72,11 +96,11 @@ const schema = a.schema({
   contentBlock: a.model({
     id: a.id().required(),
     articleId: a.id().required(),
-    article: a.belongsTo('article', 'articleId'),
     title: a.string(),
     content: a.string().required(),
     order: a.integer().required(),
-    media: a.hasMany('media', 'contentBlockId'),
+    article: a.belongsTo('article', 'articleId'),
+    medias: a.hasMany('media', 'contentBlockId'),
   }).authorization(allow => [
     allow.guest().to(['read']),
     allow.groups(['ADMIN', 'EDITOR']).to(['create', 'read', 'update', 'delete']),
@@ -127,6 +151,7 @@ const schema = a.schema({
     name: a.string().required(),
     slug: a.string().required(),
     description: a.string(),
+    isDeleted: a.boolean().default(false),
     articles: a.hasMany('articleCategory', 'categoryId'),
   }).authorization(allow => [
     allow.guest().to(['read']),
@@ -169,13 +194,17 @@ const schema = a.schema({
   }).authorization(allow => [
     allow.groups(['ADMIN']).to(['create', 'read', 'update', 'delete']),
   ]),
-});
+})
+  .authorization((allow) => [allow.resource(postConfirmation)]);
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool',
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
   },
 });

@@ -1,4 +1,4 @@
-import logoWhiteImg from '@assets/img/logo.svg';
+import logoWhiteImg from '@/assets/img/logo.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -37,7 +37,7 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
               </div>
             </div>
             <div className="col-auto d-none d-lg-inline-block">
-              <div className=" w-32">
+              <div className="w-20 md:w-36 h-auto">
                 <Link href="/">
                   <Image src={logoWhiteImg} alt="Prestígio" />
                 </Link>

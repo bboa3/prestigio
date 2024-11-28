@@ -1,9 +1,9 @@
-import blog621Img from '@assets/img/blog/blog_6_2_1.jpg';
-import blog622Img from '@assets/img/blog/blog_6_2_2.jpg';
-import blog623Img from '@assets/img/blog/blog_6_2_3.jpg';
-import blog624Img from '@assets/img/blog/blog_6_2_4.jpg';
-import blog625Img from '@assets/img/blog/blog_6_2_5.jpg';
-import blog626Img from '@assets/img/blog/blog_6_2_6.jpg';
+import blog621Img from '@/assets/img/blog/blog_6_2_1.jpg';
+import blog622Img from '@/assets/img/blog/blog_6_2_2.jpg';
+import blog623Img from '@/assets/img/blog/blog_6_2_3.jpg';
+import blog624Img from '@/assets/img/blog/blog_6_2_4.jpg';
+import blog625Img from '@/assets/img/blog/blog_6_2_5.jpg';
+import blog626Img from '@/assets/img/blog/blog_6_2_6.jpg';
 import Image from 'next/image';
 import React from 'react';
 

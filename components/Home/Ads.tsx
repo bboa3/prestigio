@@ -1,4 +1,4 @@
-import ads1Img from '@assets/img/ads/ads_1.jpg';
+import ads1Img from '@/assets/img/ads/ads_1.jpg';
 import Image from 'next/image';
 import React from 'react';
 

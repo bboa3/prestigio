@@ -1,9 +1,9 @@
-import recentPost1Img from "@assets/img/blog/recent-post-1-1.jpg";
-import recentPost2Img from "@assets/img/blog/recent-post-1-2.jpg";
-import recentPost3Img from "@assets/img/blog/recent-post-1-3.jpg";
-import recentPost4Img from "@assets/img/blog/recent-post-1-4.jpg";
-import footerLogoBlackImg from "@assets/img/logo-footer-black.svg";
-import footerLogoImg from "@assets/img/logo.svg";
+import recentPost1Img from "@/assets/img/blog/recent-post-1-1.jpg";
+import recentPost2Img from "@/assets/img/blog/recent-post-1-2.jpg";
+import recentPost3Img from "@/assets/img/blog/recent-post-1-3.jpg";
+import recentPost4Img from "@/assets/img/blog/recent-post-1-4.jpg";
+import footerLogoBlackImg from "@/assets/img/logo-footer-black.svg";
+import footerLogoImg from "@/assets/img/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 
