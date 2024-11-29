@@ -4,10 +4,15 @@ import blog623Img from '@/assets/img/blog/blog_6_2_3.jpg';
 import blog624Img from '@/assets/img/blog/blog_6_2_4.jpg';
 import blog625Img from '@/assets/img/blog/blog_6_2_5.jpg';
 import blog626Img from '@/assets/img/blog/blog_6_2_6.jpg';
+import { Article } from '@/types/schema';
 import Image from 'next/image';
 import React from 'react';
 
-const BlogAreaThirdSection: React.FC = () => {
+interface Props {
+  articles: Article[]
+}
+
+const TodayTrendingNewsSection: React.FC<Props> = ({ articles }) => {
   return (
     <section className="space">
       <div className="container">
@@ -134,4 +139,4 @@ const BlogAreaThirdSection: React.FC = () => {
   )
 };
 
-export default BlogAreaThirdSection;
+export default TodayTrendingNewsSection;

@@ -1,75 +1,19 @@
 import footerBgImg from '@/assets/img/bg/footer_bg_1.jpg';
-import recentPost21Img from '@/assets/img/blog/recent-post-2-1.jpg';
-import recentPost22Img from '@/assets/img/blog/recent-post-2-2.jpg';
 import logoFooterImg from '@/assets/img/logo.svg';
-import gallery11Img from '@/assets/img/widget/gallery_1_1.jpg';
-import gallery12Img from '@/assets/img/widget/gallery_1_2.jpg';
-import gallery13Img from '@/assets/img/widget/gallery_1_3.jpg';
-import gallery14Img from '@/assets/img/widget/gallery_1_4.jpg';
-import gallery15Img from '@/assets/img/widget/gallery_1_5.jpg';
-import gallery16Img from '@/assets/img/widget/gallery_1_6.jpg';
+import useStorage from '@/hooks/create/useStorage';
+import { Article, Category, Media, User } from '@/types/schema';
+import { Skeleton } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const postCategories = [
-  {
-    id: 'political',
-    name: 'Political',
-    slag: 'political',
-  },
-  {
-    id: "business",
-    name: 'Business',
-    slag: 'business',
-  },
-  {
-    id: "health",
-    name: 'Health',
-    slag: 'health',
-  },
-  {
-    id: "technology",
-    name: 'Technology',
-    slag: 'technology',
-  },
-  {
-    id: "sports",
-    name: 'Sports',
-    slag: 'sports',
-  },
-  {
-    id: "entertainment",
-    name: 'Entertainment',
-    slag: 'entertainment',
-  },
-];
+interface Props {
+  categories: Category[]
+  featuredArticles: Article[]
+  gallery: Media[]
+}
 
-const recentPosts = [
-  {
-    id: "equality-and-justice-for-every-citizen",
-    title: 'Equality and justice for Every citizen',
-    date: '21 June, 2023',
-    img: recentPost21Img,
-  },
-  {
-    id: "key-eyes-on-the-latest-update-of-technology",
-    title: 'Key eyes on the latest update of technology',
-    date: '22 June, 2023',
-    img: recentPost22Img,
-  },
-];
-
-const galleryPosts = [
-  gallery11Img,
-  gallery12Img,
-  gallery13Img,
-  gallery14Img,
-  gallery15Img,
-  gallery16Img,
-];
-
-const Footer: React.FC = () => {
+const Footer: React.FC<Props> = ({ categories, featuredArticles, gallery }) => {
   return (
     <footer className="footer-wrapper footer-layout1" data-bg-src={footerBgImg.src}>
       <div className="widget-area">
@@ -99,9 +43,9 @@ const Footer: React.FC = () => {
                 <div className="menu-all-pages-container">
                   <ul className="menu">
                     {
-                      postCategories.map((category) => (
+                      categories.map((category) => (
                         <li key={category.id}>
-                          <Link href={`/categoria/${category.slag}`}>
+                          <Link href={`/categoria/${category.slug}`}>
                             {category.name}
                           </Link>
                         </li>
@@ -116,27 +60,8 @@ const Footer: React.FC = () => {
                 <h3 className="widget_title">Publicações recentes</h3>
                 <div className="recent-post-wrap">
                   {
-                    recentPosts.map((post) => (
-                      <div key={post.id} className="recent-post">
-                        <div className="media-img">
-                          <Link href={`/publicacao/${post.id}`}>
-                            <Image src={post.img} alt="Blog Image" />
-                          </Link>
-                        </div>
-                        <div className="media-body">
-                          <h4 className="post-title">
-                            <Link href={`/publicacao/${post.id}`}>
-                              {post.title}
-                            </Link>
-                          </h4>
-                          <div className="recent-post-meta">
-                            <Link href={`/publicacao/${post.id}`}>
-                              <i className="fal fa-calendar-days"></i>
-                              {post.date}
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
+                    featuredArticles.slice(0, 3).map((article) => (
+                      <FeaturedArticle key={article.id} article={article} />
                     ))
                   }
                 </div>
@@ -144,12 +69,12 @@ const Footer: React.FC = () => {
             </div>
             <div className="col-md-6 col-xl-3">
               <div className="widget footer-widget">
-                <h3 className="widget_title">Gallery Post</h3>
+                <h3 className="widget_title">Galeria de Fotos</h3>
                 <div className="sidebar-gallery">
                   {
-                    galleryPosts.map((galleryPost, index) => (
+                    gallery.map((media, index) => (
                       <div key={`gallery-${index}`} className="gallery-thumb">
-                        <Image src={galleryPost} alt="Gallery Image" />
+                        <Image src={media.url} alt="Prestígio" width={100} height={100} />
                         <Link href={'/'} className="gallery-btn popup-image">
                           <i className="fab fa-instagram"></i>
                         </Link>
@@ -184,6 +109,59 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   )
+}
+
+const FeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [author, setAuthor] = useState<User | null>(null);
+  const [featuredImage, setFeaturedImage] = useState<Media | null>(null);
+  const { getUrl } = useStorage();
+
+  useEffect(() => {
+    (async () => {
+      const [{ data: categoriesData }, { data: featuredImageData }, { data: authorData }] = await Promise.all([
+        article.categories(),
+        article.featuredImage(),
+        article.author()
+      ]);
+
+      setCategories(categoriesData as unknown as Category[]);
+      setFeaturedImage(featuredImageData as unknown as Media);
+      setAuthor(authorData as User);
+    })();
+  }, [article]);
+
+  if (!article || categories.length === 0 || !featuredImage || !author)
+    return (
+      <div className="w-full flex items-start flex-col">
+        <Skeleton variant="rounded" width="70%" height={25} />
+        <Skeleton className="my-2" animation="wave" variant="rounded" width="100%" height={100} />
+        <Skeleton variant="rounded" width="100%" height={60} />
+      </div>
+    );
+
+  return (
+    <div key={article.id} className="recent-post">
+      <div className="media-img">
+        <Link href={`/publicacao/${article.id}`}>
+          <Image width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title} />
+        </Link>
+      </div>
+      <div className="media-body">
+        <h4 className="post-title">
+          <Link href={`/publicacao/${article.id}`}>
+            {article.title}
+          </Link>
+        </h4>
+        <div className="recent-post-meta">
+          <Link href={`/publicacao/${article.id}`}>
+            <i className="fal fa-calendar-days"></i>
+            {article.publishedAt}
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Footer;

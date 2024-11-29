@@ -80,6 +80,8 @@ const schema = a.schema({
     status: a.enum(articleStatuses),
     tags: a.string().required().array().required(),
     publishedAt: a.datetime(),
+    viewCount: a.integer().required().default(0),
+    likeCount: a.integer().required().default(0),
     isDeleted: a.boolean().default(false),
     featuredImage: a.hasOne('media', 'articleId'),
     comments: a.hasMany('comment', 'articleId'),
@@ -88,10 +90,17 @@ const schema = a.schema({
     author: a.belongsTo('user', 'authorId'),
     contentBlocks: a.hasMany('contentBlock', 'articleId'),
     categories: a.hasMany('articleCategory', 'articleId'),
-  }).authorization(allow => [
-    allow.guest().to(['read']),
-    allow.groups(['ADMIN', 'EDITOR']).to(['create', 'read', 'update', 'delete']),
-  ]),
+  })
+    .secondaryIndexes((index) => [
+      index("status").sortKeys(["publishedAt"]),
+      index("status").sortKeys(["publishedAt", "viewCount"]),
+      index("status").sortKeys(["publishedAt", "likeCount"]),
+      index("status").sortKeys(["publishedAt", "likeCount", "viewCount"]),
+    ])
+    .authorization(allow => [
+      allow.guest().to(['read']),
+      allow.groups(['ADMIN', 'EDITOR']).to(['create', 'read', 'update', 'delete']),
+    ]),
 
   contentBlock: a.model({
     id: a.id().required(),

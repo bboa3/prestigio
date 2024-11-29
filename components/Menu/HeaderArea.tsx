@@ -1,4 +1,5 @@
 import logoWhiteImg from '@/assets/img/logo.svg';
+import { formatDateFullTextual } from '@/utils/date/formatter';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -13,6 +14,8 @@ interface Props {
 }
 
 const HeaderArea: React.FC<Props> = ({ categories }) => {
+  const today = formatDateFullTextual(new Date());
+
   return (
     <header className="th-header header-layout2 dark-theme">
       <div className="header-top">
@@ -31,17 +34,17 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
                 <ul>
                   <li>
                     <i className="fal fa-calendar-days"></i>
-                    <Link href="/publicacao/">Segunda-feira, 20 de agosto de 2023</Link>
+                    <Link href="/publicacao/">{today}</Link>
                   </li>
                 </ul>
               </div>
             </div>
             <div className="col-auto d-none d-lg-inline-block">
-              <div className="w-20 md:w-36 h-auto">
-                <Link href="/">
-                  <Image src={logoWhiteImg} alt="Prestígio" />
-                </Link>
-              </div>
+              <Link href="/">
+                <div className="w-20 md:w-36 h-auto">
+                  <Image className='w-full h-full' src={logoWhiteImg} alt="Prestígio" />
+                </div>
+              </Link>
             </div>
             <div className="col-auto text-center text-md-end">
               <div className="header-icon">

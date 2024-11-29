@@ -1,41 +1,18 @@
 import HeaderArea from '@/components/Menu/HeaderArea';
 import MobileMenu from '@/components/Menu/MobileMenu';
 import SideMenu from '@/components/Menu/SideMenu';
+import { Category } from '@/types/schema';
 import React from 'react';
 
-const newsCategories = [
-  {
-    name: 'Política',
-    slug: 'politica',
-  },
-  {
-    name: 'Negócios',
-    slug: 'negocios',
-  },
-  {
-    name: 'Saúde',
-    slug: 'saude',
-  },
-  {
-    name: 'Tecnologia',
-    slug: 'tecnologia',
-  },
-  {
-    name: 'Desporto',
-    slug: 'desporto',
-  },
-  {
-    name: 'Entretenimento',
-    slug: 'entretenimento',
-  },
-];
+interface Props {
+  categories: Category[]
+}
 
-
-const Nav: React.FC = () => (
+const Nav: React.FC<Props> = ({ categories }) => (
   <>
     <SideMenu />
-    <MobileMenu categories={newsCategories} />
-    <HeaderArea categories={newsCategories} />
+    <MobileMenu categories={categories} />
+    <HeaderArea categories={categories} />
   </>
 )
 

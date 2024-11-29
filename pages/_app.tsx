@@ -11,6 +11,12 @@ import { faFont, leagueSpartan } from "@/assets/fonts";
 import "@/assets/sass/globals.scss";
 import { AuthProvider } from "@/Context/AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(timezone);
+dayjs.locale('pt-br');
 
 Amplify.configure(outputs);
 

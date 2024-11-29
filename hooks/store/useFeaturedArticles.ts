@@ -1,12 +1,18 @@
 import { Schema } from '@/amplify/data/resource';
 import { useAuth } from '@/Context/AuthContext';
-import { Article, ListOptions } from '@/types/schema';
+import { Article, ArticleStatus } from '@/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import { useEffect, useState } from 'react';
 
 const client = generateClient<Schema>();
 
-function useArticles(options?: ListOptions) {
+interface ListOptions {
+  limit?: number;
+  nextToken?: string;
+  sortDirection?: 'ASC' | 'DESC';
+}
+
+function useFeaturedArticles(options?: ListOptions) {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextToken, setNextToken] = useState<string | null>(null);
@@ -16,7 +22,10 @@ function useArticles(options?: ListOptions) {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const { data: articlesData, errors, nextToken: newNextToken } = await client.models.article.list(options);
+        const { data: articlesData, errors, nextToken: newNextToken } = await client.models.article.listarticleByStatusAndPublishedAt({
+          status: ArticleStatus.PUBLISHED,
+          ...options
+        })
 
         if (errors) {
           throw new Error(errors[0].message);
@@ -29,7 +38,7 @@ function useArticles(options?: ListOptions) {
         setArticles(articlesData as Article[]);
         setNextToken(newNextToken || null);
       } catch (err) {
-        setError(new Error('Error fetching articles'));
+        setError(new Error('Erro buscando artigos'));
         console.error(err);
       } finally {
         setLoading(false);
@@ -42,4 +51,4 @@ function useArticles(options?: ListOptions) {
   return { articles, loading, error, nextToken };
 }
 
-export default useArticles;
+export default useFeaturedArticles;
