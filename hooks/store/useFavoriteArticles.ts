@@ -1,54 +1,32 @@
-import { Schema } from '@/amplify/data/resource';
-import { useAuth } from '@/Context/AuthContext';
-import { Article, ArticleStatus } from '@/types/schema';
-import { generateClient } from 'aws-amplify/data';
-import { useEffect, useState } from 'react';
-
-const client = generateClient<Schema>();
+import useArticles from '@/hooks/store/useArticles';
+import { ArticleStatus } from '@/types/schema';
+import { useMemo } from 'react';
 
 interface ListOptions {
   limit?: number;
   nextToken?: string;
-  sortDirection?: 'ASC' | 'DESC';
+  startDate?: string; // ISO date string
+  endDate?: string;   // ISO date string
 }
 
 function useFavoriteArticles(options?: ListOptions) {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [nextToken, setNextToken] = useState<string | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const { user } = useAuth();
+  const publishedAtFilter = options?.startDate && options?.endDate ? { between: [options.startDate, options.endDate] } : undefined;
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const { data: articlesData, errors, nextToken: newNextToken } = await client.models.article.listarticleByStatusAndPublishedAtAndLikeCount({
-          status: ArticleStatus.PUBLISHED,
-          ...options
-        })
+  const featuredOption = useMemo(() => ({
+    limit: options?.limit || 5,
+    filter: {
+      isDeleted: { eq: false },
+      status: { eq: ArticleStatus.PUBLISHED },
+      publishedAt: publishedAtFilter
+    },
+    nextToken: options?.nextToken,
+  }), []);
 
-        if (errors) {
-          throw new Error(errors[0].message);
-        }
+  const { articles, loading, error, nextToken } = useArticles(featuredOption);
 
-        if (!articlesData) {
-          throw new Error('ListArticles: Empty response from server');
-        }
+  const sortedArticles = articles.sort((a, b) => b.likeCount - a.likeCount);
 
-        setArticles(articlesData as Article[]);
-        setNextToken(newNextToken || null);
-      } catch (err) {
-        setError(new Error('Erro buscando artigos'));
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, [options, user]);
-
-  return { articles, loading, error, nextToken };
+  return { articles: sortedArticles, loading, error, nextToken };
 }
 
 export default useFavoriteArticles;

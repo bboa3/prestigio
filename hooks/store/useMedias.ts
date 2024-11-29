@@ -3,7 +3,9 @@ import { ListOptions, Media } from '@/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import { useEffect, useRef, useState } from 'react';
 
-const client = generateClient<Schema>();
+const client = generateClient<Schema>({
+  authMode: 'identityPool',
+});
 
 function useMedias(options?: ListOptions) {
   const [medias, setMedias] = useState<Media[]>([]);

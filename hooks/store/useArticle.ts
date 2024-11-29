@@ -3,7 +3,9 @@ import { Article, Category, Comment, ContentBlock, Like, Media, User, View } fro
 import { generateClient } from 'aws-amplify/data';
 import { useEffect, useState } from 'react';
 
-const client = generateClient<Schema>();
+const client = generateClient<Schema>({
+  authMode: 'identityPool',
+});
 
 function useArticle(id: string) {
   const [article, setArticle] = useState<Article | null>(null);

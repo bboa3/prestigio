@@ -4,7 +4,9 @@ import { User } from '@/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import { useEffect, useRef, useState } from 'react';
 
-const client = generateClient<Schema>();
+const client = generateClient<Schema>({
+  authMode: 'userPool'
+});
 
 function useUser() {
   const { user: currentUser } = useAuth();

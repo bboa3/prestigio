@@ -7,7 +7,7 @@ const client = generateClient<Schema>({
   authMode: 'identityPool',
 });
 
-function useCategories(options?: ListOptions) {
+function useArticleCategories(options?: ListOptions) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextToken, setNextToken] = useState<string | null>(null);
@@ -44,4 +44,4 @@ function useCategories(options?: ListOptions) {
   return { categories, loading, error, nextToken };
 }
 
-export default useCategories;
+export default useArticleCategories;

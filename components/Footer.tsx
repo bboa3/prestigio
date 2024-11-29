@@ -14,6 +14,8 @@ interface Props {
 }
 
 const Footer: React.FC<Props> = ({ categories, featuredArticles, gallery }) => {
+  const { getUrl } = useStorage();
+
   return (
     <footer className="footer-wrapper footer-layout1" data-bg-src={footerBgImg.src}>
       <div className="widget-area">
@@ -74,7 +76,7 @@ const Footer: React.FC<Props> = ({ categories, featuredArticles, gallery }) => {
                   {
                     gallery.map((media, index) => (
                       <div key={`gallery-${index}`} className="gallery-thumb">
-                        <Image src={media.url} alt="Prestígio" width={100} height={100} />
+                        <Image src={getUrl(media.url)} alt="Prestígio" width={100} height={100} />
                         <Link href={'/'} className="gallery-btn popup-image">
                           <i className="fab fa-instagram"></i>
                         </Link>

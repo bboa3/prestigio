@@ -88,30 +88,26 @@ const MainTrendingArticle: React.FC<{ article: Article }> = ({ article }) => {
       <div className="blog-style1 style-big">
         <div className="blog-img">
           <Image
+            width={600}
+            height={600}
             src={getUrl(featuredImage.url)}
             alt={article.title}
           />
-          <Link href={`/categoria/${categories[0]?.slug}`} passHref>
-            <a data-theme-color="#FF9500" className="category">
-              {categories[0]?.name || 'General'}
-            </a>
+          <Link href={`/categoria/${categories[0]?.slug}`} data-theme-color="#FF9500" className="category">
+            {categories[0]?.name || 'General'}
           </Link>
         </div>
         <h3 className="box-title-30">
-          <Link href={`/publicacao/${article.slug}`}>
-            <a className="hover-line">{article.title}</a>
+          <Link href={`/publicacao/${article.slug}`} className="hover-line">
+            {article.title}
           </Link>
         </h3>
         <div className="blog-meta">
           <Link href={`/autor/${author?.id}`}>
-            <a>
-              <i className="far fa-user"></i> By - {author?.name || 'Unknown'}
-            </a>
+            <i className="far fa-user"></i> By - {author?.name || 'Unknown'}
           </Link>
           <Link href={`/publicacao/${article.slug}`}>
-            <a>
-              <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
-            </a>
+            <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
           </Link>
         </div>
       </div>
@@ -153,30 +149,26 @@ const SecondaryTrendingArticle: React.FC<{ article: Article }> = ({ article }) =
       <div className="blog-style1">
         <div className="blog-img">
           <Image
+            width={600}
+            height={600}
             src={getUrl(featuredImage.url)}
             alt={article.title}
           />
-          <Link href={`/categoria/${categories[0]?.slug}`} passHref>
-            <a data-theme-color="#00D084" className="category">
-              {categories[0]?.name || 'General'}
-            </a>
+          <Link href={`/categoria/${categories[0]?.slug}`} pdata-theme-color="#00D084" className="category">
+            {categories[0]?.name || 'General'}
           </Link>
         </div>
         <h3 className="box-title-22">
-          <Link href={`/publicacao/${article.slug}`}>
-            <a className="hover-line">{article.title}</a>
+          <Link href={`/publicacao/${article.slug}`} className="hover-line">
+            {article.title}
           </Link>
         </h3>
         <div className="blog-meta">
           <Link href={`/autor/${author?.id}`}>
-            <a>
-              <i className="far fa-user"></i> Por - {author?.name || 'Unknown'}
-            </a>
+            <i className="far fa-user"></i> Por - {author?.name || 'Unknown'}
           </Link>
           <Link href={`/publicacao/${article.slug}`}>
-            <a>
-              <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
-            </a>
+            <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
           </Link>
         </div>
       </div>
@@ -215,26 +207,24 @@ const ThirdTrendingArticle: React.FC<{ article: Article }> = ({ article }) => {
       <div className="blog-style2">
         <div className="blog-img">
           <Image
+            width={600}
+            height={600}
             src={getUrl(featuredImage.url)}
             alt={article.title}
           />
         </div>
         <div className="blog-content">
-          <Link href={`/categoria/${categories[0]?.slug}`} passHref>
-            <a data-theme-color="#4E4BD0" className="category">
-              {categories[0]?.name || 'General'}
-            </a>
+          <Link href={`/categoria/${categories[0]?.slug}`} data-theme-color="#4E4BD0" className="category">
+            {categories[0]?.name || 'General'}
           </Link>
           <h3 className="box-title-20">
-            <Link href={`/publicacao/${article.slug}`}>
-              <a className="hover-line">{article.title}</a>
+            <Link href={`/publicacao/${article.slug}`} className="hover-line">
+              {article.title}
             </Link>
           </h3>
           <div className="blog-meta">
             <Link href={`/publicacao/${article.slug}`}>
-              <a>
-                <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
-              </a>
+              <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
             </Link>
           </div>
         </div>

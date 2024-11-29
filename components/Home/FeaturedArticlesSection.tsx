@@ -1,5 +1,5 @@
 import useStorage from '@/hooks/create/useStorage';
-import { Article, Category, Media, User } from '@/types/schema';
+import { Article, ArticleCategory, Category, Media, User } from '@/types/schema';
 import { formatDateNumeric } from '@/utils/date/formatter';
 import { Skeleton } from '@mui/material';
 import Image from 'next/image';
@@ -35,7 +35,7 @@ const FeaturedArticlesSection: React.FC<Props> = ({ articles }) => {
 
 const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
   const { getUrl } = useStorage();
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ArticleCategory[]>([]);
   const [author, setAuthor] = useState<User | null>(null);
   const [featuredImage, setFeaturedImage] = useState<Media | null>(null);
 
@@ -47,7 +47,7 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
         article.author(),
       ]);
 
-      setCategories(categoriesData as unknown as Category[]);
+      setCategories(categoriesData as unknown as ArticleCategory[]);
       setFeaturedImage(featuredImageData as unknown as Media);
       setAuthor(authorData as User);
     })();
@@ -68,29 +68,21 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
     <div className="dark-theme img-overlay2">
       <div className="blog-style3">
         <div className="blog-img">
-          <Image src={getUrl(featuredImage.url)} alt={article.title || 'Imagem do artigo'} />
+          <Image className='w-full h-full object-cover' width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title || 'Imagem do artigo'} />
         </div>
         <div className="blog-content">
-          <Link href={`/category/${categories[0]?.slug}`} passHref>
-            <a data-theme-color="#007BFF" className="category">
-              {categories[0]?.name || 'General'}
-            </a>
-          </Link>
-          <h3 className="box-title-30">
-            <Link href={`/article/${article.slug}`}>
-              <a className="hover-line">{article.title}</a>
+          {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
+          <h3 className="text-3xl font-bold text-white">
+            <Link href={`/article/${article.slug}`} className="hover-line">
+              {article.title}
             </Link>
           </h3>
           <div className="blog-meta">
             <Link href={`/author/${author.id}`}>
-              <a>
-                <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
-              </a>
+              <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
             </Link>
             <Link href={`/article/${article.slug}`}>
-              <a>
-                <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
-              </a>
+              <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
             </Link>
           </div>
         </div>
@@ -98,6 +90,23 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
     </div>
   );
 };
+
+const ArticleCategoryComponent: React.FC<{ articleCategory: ArticleCategory }> = ({ articleCategory }) => {
+  const [category, setCategory] = useState<Category | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data: categoryData } = await articleCategory.category();
+      setCategory(categoryData as unknown as Category);
+    })();
+  }, [articleCategory]);
+
+  return (
+    <Link href={`/category/${category?.slug}`} data-theme-color="#007BFF" className="category">
+      {category?.name || 'General'}
+    </Link>
+  )
+}
 
 const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
   const { getUrl } = useStorage();
@@ -133,29 +142,23 @@ const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) =
     <div className="col-xl-6 col-md-6 dark-theme img-overlay2">
       <div className="blog-style3">
         <div className="blog-img">
-          <Image src={getUrl(featuredImage.url)} alt={article.title || 'Imagem do artigo'} />
+          <Image width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title || 'Imagem do artigo'} />
         </div>
         <div className="blog-content">
-          <Link href={`/category/${categories[0]?.slug}`} passHref>
-            <a data-theme-color="#4E4BD0" className="category">
-              {categories[0]?.name || 'General'}
-            </a>
+          <Link href={`/category/${categories[0]?.slug}`} data-theme-color="#4E4BD0" className="category">
+            {categories[0]?.name || 'General'}
           </Link>
           <h3 className="box-title-18">
-            <Link href={`/article/${article.slug}`}>
-              <a className="hover-line">{article.title}</a>
+            <Link href={`/article/${article.slug}`} className="hover-line">
+              {article.title}
             </Link>
           </h3>
           <div className="blog-meta">
             <Link href={`/author/${author.id}`}>
-              <a>
-                <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
-              </a>
+              <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
             </Link>
             <Link href={`/article/${article.slug}`}>
-              <a>
-                <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
-              </a>
+              <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
             </Link>
           </div>
         </div>

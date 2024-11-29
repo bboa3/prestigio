@@ -3,6 +3,7 @@ import FavoriteArticlesSection from "@/components/Home/FavoriteArticlesSection";
 import FeaturedArticlesSection from "@/components/Home/FeaturedArticlesSection";
 import TrendingArticleSection from "@/components/Home/TrendingArticleSection";
 import SimpleLayout from "@/components/Layout/SimpleLayout";
+import LoadingIndicator from "@/components/LoadingIndicator";
 import useCategories from "@/hooks/store/useCategories";
 import useFavoriteArticles from "@/hooks/store/useFavoriteArticles";
 import useFeaturedArticles from "@/hooks/store/useFeaturedArticles";
@@ -11,17 +12,18 @@ import useTrendingArticles from "@/hooks/store/useTrendingArticles";
 import { useMemo } from "react";
 
 export default function App() {
-  const featuredOption = useMemo(() => ({ limit: 5 }), []);
-  const favoriteOption = useMemo(() => ({ limit: 7 }), []);
-  const trendingOption = useMemo(() => ({ limit: 6 }), []);
   const categoriesOption = useMemo(() => ({ filter: { isDeleted: { eq: false } }, limit: 6 }), []);
   const galleryOption = useMemo(() => ({ limit: 6 }), []);
 
   const { medias } = useMedias(galleryOption);
   const { categories } = useCategories(categoriesOption);
-  const { articles: featured } = useFeaturedArticles(featuredOption);
-  const { articles: favorite } = useFavoriteArticles(favoriteOption);
-  const { articles: trending } = useTrendingArticles(trendingOption);
+  const { articles: featured } = useFeaturedArticles({ limit: 5 });
+  const { articles: favorite } = useFavoriteArticles({ limit: 7 });
+  const { articles: trending } = useTrendingArticles({ limit: 6 });
+
+  if (!medias || !categories || !featured || !favorite || !trending) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <SimpleLayout

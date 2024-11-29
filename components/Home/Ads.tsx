@@ -7,7 +7,7 @@ const Ads: React.FC = () => {
   return (
     <div className="container space-top">
       <a href="https://themeforest.net/user/themeholy/portfolio">
-        <Image src={ads1Img} alt="ads" className='w-100' />
+        <Image width={600} height={600} src={ads1Img} alt="ads" className='w-100' />
       </a>
     </div>
   )
