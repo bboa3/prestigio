@@ -2,7 +2,6 @@ import outputs from "@/amplify_outputs.json";
 import "@/assets/css/fontawesome.min.css";
 import "@/assets/css/magnific-popup.min.css";
 import '@/assets/css/slick.min.css';
-import "@/styles/globals.css";
 import "@aws-amplify/ui-react/styles.css";
 import { Amplify } from "aws-amplify";
 import type { AppProps } from "next/app";
@@ -14,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import timezone from 'dayjs/plugin/timezone';
+import "@/styles/globals.css";
 
 dayjs.extend(timezone);
 dayjs.locale('pt-br');

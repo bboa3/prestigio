@@ -1,5 +1,5 @@
 import useStorage from '@/hooks/create/useStorage';
-import { Article, Category, Media, User } from '@/types/schema';
+import { Article, ArticleCategory, Category, Media, User } from '@/types/schema';
 import { formatDateNumeric } from '@/utils/date/formatter';
 import { Skeleton } from '@mui/material';
 import Image from 'next/image';
@@ -32,9 +32,9 @@ const FavoriteArticlesSection: React.FC<Props> = ({ articles }) => {
 
 const MainFavoriteArticle: React.FC<{ article: Article }> = ({ article }) => {
   const { getUrl } = useStorage();
-  const [featuredImage, setFeaturedImage] = useState<Media | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ArticleCategory[]>([]);
   const [author, setAuthor] = useState<User | null>(null);
+  const [featuredImage, setFeaturedImage] = useState<Media | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -46,7 +46,7 @@ const MainFavoriteArticle: React.FC<{ article: Article }> = ({ article }) => {
         article.author(),
       ]);
 
-      setCategories(categoriesData as unknown as Category[]);
+      setCategories(categoriesData as unknown as ArticleCategory[]);
       setFeaturedImage(featuredImageData as unknown as Media);
       setAuthor(authorData as User);
     })();
@@ -70,9 +70,7 @@ const MainFavoriteArticle: React.FC<{ article: Article }> = ({ article }) => {
           <Image width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title} />
         </div>
         <div className="blog-content">
-          <Link href={`/category/${categories[0]?.slug}`} data-theme-color="#4E4BD0" className="category">
-            {categories[0]?.name}
-          </Link>
+          {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
           <h3 className="box-title-30">
             <Link className="hover-line" href={`/article/${article.slug}`}>
               {article.title}
@@ -94,19 +92,20 @@ const MainFavoriteArticle: React.FC<{ article: Article }> = ({ article }) => {
 
 const SecondaryFavoriteArticle: React.FC<{ article: Article }> = ({ article }) => {
   const { getUrl } = useStorage();
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ArticleCategory[]>([]);
   const [author, setAuthor] = useState<User | null>(null);
   const [featuredImage, setFeaturedImage] = useState<Media | null>(null);
 
   useEffect(() => {
     (async () => {
+      if (!article) return;
       const [{ data: categoriesData }, { data: featuredImageData }, { data: authorData }] = await Promise.all([
         article.categories(),
         article.featuredImage(),
         article.author(),
       ]);
 
-      setCategories(categoriesData as unknown as Category[]);
+      setCategories(categoriesData as unknown as ArticleCategory[]);
       setFeaturedImage(featuredImageData as unknown as Media);
       setAuthor(authorData as User);
     })();
@@ -127,9 +126,7 @@ const SecondaryFavoriteArticle: React.FC<{ article: Article }> = ({ article }) =
       <div className="blog-style1">
         <div className="blog-img">
           <Image width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title} />
-          <Link href={`/category/${categories[0]?.slug}`} data-theme-color="#019D9E" className="category">
-            {categories[0]?.name}
-          </Link>
+          {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
         </div>
         <h3 className="box-title-22">
           <Link href={`/article/${article.slug}`} className="hover-line">
@@ -146,6 +143,43 @@ const SecondaryFavoriteArticle: React.FC<{ article: Article }> = ({ article }) =
         </div>
       </div>
     </div>
+  );
+};
+
+const categoryColors = [
+  "#007BFF",
+  "#E8137D",
+  "#8750A6",
+  "#4E4BD0",
+  "#00D084",
+  "#FF9500",
+  "#E7473C",
+  "#59C2D6",
+];
+
+const getRandomColor = () => categoryColors[Math.floor(Math.random() * categoryColors.length)];
+
+const ArticleCategoryComponent: React.FC<{ articleCategory: ArticleCategory }> = ({ articleCategory }) => {
+  const [category, setCategory] = useState<Category | null>(null);
+  const [color, setColor] = useState<string>(getRandomColor);
+
+  useEffect(() => {
+    (async () => {
+      if (!articleCategory) return;
+      const { data: categoryData } = await articleCategory.category();
+      setCategory(categoryData as unknown as Category);
+      setColor(getRandomColor);
+    })();
+  }, [articleCategory]);
+
+  return (
+    <Link
+      href={`/category/${category?.slug}`}
+      className="category"
+      style={{ backgroundColor: color }}
+    >
+      {category?.name || 'General'}
+    </Link>
   );
 };
 

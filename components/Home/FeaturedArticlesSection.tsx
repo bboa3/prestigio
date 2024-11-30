@@ -10,6 +10,19 @@ interface Props {
   articles: Article[];
 }
 
+const categoryColors = [
+  "#007BFF",
+  "#E8137D",
+  "#8750A6",
+  "#4E4BD0",
+  "#00D084",
+  "#FF9500",
+  "#E7473C",
+  "#59C2D6",
+];
+
+const getRandomColor = () => categoryColors[Math.floor(Math.random() * categoryColors.length)];
+
 const FeaturedArticlesSection: React.FC<Props> = ({ articles }) => {
   return (
     <section className="space">
@@ -41,6 +54,8 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
 
   useEffect(() => {
     (async () => {
+      if (!article) return;
+
       const [{ data: categoriesData }, { data: featuredImageData }, { data: authorData }] = await Promise.all([
         article.categories(),
         article.featuredImage(),
@@ -72,8 +87,8 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
         </div>
         <div className="blog-content">
           {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
-          <h3 className="text-3xl font-bold text-white">
-            <Link href={`/article/${article.slug}`} className="hover-line">
+          <h3 className="font-bold text-2xl text-white">
+            <Link href={`/article/${article.slug}`} className="hover-line no-underline">
               {article.title}
             </Link>
           </h3>
@@ -93,20 +108,27 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
 
 const ArticleCategoryComponent: React.FC<{ articleCategory: ArticleCategory }> = ({ articleCategory }) => {
   const [category, setCategory] = useState<Category | null>(null);
+  const [color, setColor] = useState<string>(getRandomColor);
 
   useEffect(() => {
     (async () => {
+      if (!articleCategory) return;
       const { data: categoryData } = await articleCategory.category();
       setCategory(categoryData as unknown as Category);
+      setColor(getRandomColor);
     })();
   }, [articleCategory]);
 
   return (
-    <Link href={`/category/${category?.slug}`} data-theme-color="#007BFF" className="category">
+    <Link
+      href={`/category/${category?.slug}`}
+      className="category"
+      style={{ backgroundColor: color }}
+    >
       {category?.name || 'General'}
     </Link>
-  )
-}
+  );
+};
 
 const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
   const { getUrl } = useStorage();
@@ -116,6 +138,8 @@ const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) =
 
   useEffect(() => {
     (async () => {
+      if (!article) return;
+
       const [{ data: categoriesData }, { data: featuredImageData }, { data: authorData }] = await Promise.all([
         article.categories(),
         article.featuredImage(),
@@ -145,10 +169,14 @@ const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) =
           <Image width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title || 'Imagem do artigo'} />
         </div>
         <div className="blog-content">
-          <Link href={`/category/${categories[0]?.slug}`} data-theme-color="#4E4BD0" className="category">
+          <Link
+            href={`/category/${categories[0]?.slug}`}
+            className="category"
+            style={{ backgroundColor: getRandomColor() }}
+          >
             {categories[0]?.name || 'General'}
           </Link>
-          <h3 className="box-title-18">
+          <h3 className="box-title-18 text-lg text-white">
             <Link href={`/article/${article.slug}`} className="hover-line">
               {article.title}
             </Link>
