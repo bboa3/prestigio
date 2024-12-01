@@ -1,11 +1,12 @@
-import storyBg1Img from "@assets/img/bg/cta_bg_1.jpg";
-import prestigioTeam2Img from "@assets/img/normal/equipa-prestigio-2.png";
-import prestigioTeamImg from "@assets/img/normal/equipa-prestigio.png";
-import story1Img from "@assets/img/normal/story_1.jpg";
-import story2Img from "@assets/img/normal/story_2.jpg";
-import story3Img from "@assets/img/normal/story_3.jpg";
-import story4Img from "@assets/img/normal/story_4.jpg";
-import storyBg2Img from "@assets/img/normal/story_bg_1.svg";
+import storyBg1Img from "@/assets/img/bg/cta_bg_1.jpg";
+import prestigioTeam2Img from "@/assets/img/normal/equipa-prestigio-2.png";
+import prestigioTeamImg from "@/assets/img/normal/equipa-prestigio.png";
+import story1Img from "@/assets/img/normal/story_1.jpg";
+import story2Img from "@/assets/img/normal/story_2.jpg";
+import story3Img from "@/assets/img/normal/story_3.jpg";
+import story4Img from "@/assets/img/normal/story_4.jpg";
+import storyBg2Img from "@/assets/img/normal/story_bg_1.svg";
+import SimpleLayout from "@/components/Layout/SimpleLayout";
 import Image from 'next/image';
 import Link from "next/link";
 import React from 'react';
@@ -61,7 +62,7 @@ const AboutUs: React.FC = () => {
           </div>
         </div>
       </section>
-      <div className="counter-sec-1 pb-12">
+      <div className="counter-sec-1 pb-10">
         <div className="container">
           <div className="counter-card-wrap">
             <div className="counter-card">

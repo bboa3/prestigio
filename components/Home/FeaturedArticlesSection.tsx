@@ -5,23 +5,11 @@ import { Skeleton } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import ArticleCategoryComponent from '@/components/Home/ArticleCategoryComponent';
 
 interface Props {
   articles: Article[];
 }
-
-const categoryColors = [
-  "#007BFF",
-  "#E8137D",
-  "#8750A6",
-  "#4E4BD0",
-  "#00D084",
-  "#FF9500",
-  "#E7473C",
-  "#59C2D6",
-];
-
-const getRandomColor = () => categoryColors[Math.floor(Math.random() * categoryColors.length)];
 
 const FeaturedArticlesSection: React.FC<Props> = ({ articles }) => {
   return (
@@ -88,15 +76,15 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
         <div className="blog-content">
           {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
           <h3 className="font-bold text-2xl text-white">
-            <Link href={`/article/${article.slug}`} className="hover-line no-underline">
+            <Link href={`/publicacao/${article.slug}`} className="hover-line no-underline">
               {article.title}
             </Link>
           </h3>
           <div className="blog-meta">
-            <Link href={`/author/${author.id}`}>
+            <Link href={`/autor/${author.id}`}>
               <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
             </Link>
-            <Link href={`/article/${article.slug}`}>
+            <Link href={`/publicacao/${article.slug}`}>
               <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
             </Link>
           </div>
@@ -106,33 +94,9 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
   );
 };
 
-const ArticleCategoryComponent: React.FC<{ articleCategory: ArticleCategory }> = ({ articleCategory }) => {
-  const [category, setCategory] = useState<Category | null>(null);
-  const [color, setColor] = useState<string>(getRandomColor);
-
-  useEffect(() => {
-    (async () => {
-      if (!articleCategory) return;
-      const { data: categoryData } = await articleCategory.category();
-      setCategory(categoryData as unknown as Category);
-      setColor(getRandomColor);
-    })();
-  }, [articleCategory]);
-
-  return (
-    <Link
-      href={`/category/${category?.slug}`}
-      className="category"
-      style={{ backgroundColor: color }}
-    >
-      {category?.name || 'General'}
-    </Link>
-  );
-};
-
 const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
   const { getUrl } = useStorage();
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ArticleCategory[]>([]);
   const [author, setAuthor] = useState<User | null>(null);
   const [featuredImage, setFeaturedImage] = useState<Media | null>(null);
 
@@ -146,7 +110,7 @@ const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) =
         article.author(),
       ]);
 
-      setCategories(categoriesData as unknown as Category[]);
+      setCategories(categoriesData as unknown as ArticleCategory[]);
       setFeaturedImage(featuredImageData as unknown as Media);
       setAuthor(authorData as User);
     })();
@@ -169,23 +133,17 @@ const SecondaryFeaturedArticle: React.FC<{ article: Article }> = ({ article }) =
           <Image width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title || 'Imagem do artigo'} />
         </div>
         <div className="blog-content">
-          <Link
-            href={`/category/${categories[0]?.slug}`}
-            className="category"
-            style={{ backgroundColor: getRandomColor() }}
-          >
-            {categories[0]?.name || 'General'}
-          </Link>
+          {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
           <h3 className="box-title-18 text-lg text-white">
-            <Link href={`/article/${article.slug}`} className="hover-line">
+            <Link href={`/publicacao/${article.slug}`} className="hover-line">
               {article.title}
             </Link>
           </h3>
           <div className="blog-meta">
-            <Link href={`/author/${author.id}`}>
+            <Link href={`/autor/${author.id}`}>
               <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
             </Link>
-            <Link href={`/article/${article.slug}`}>
+            <Link href={`/publicacao/${article.slug}`}>
               <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
             </Link>
           </div>

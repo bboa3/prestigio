@@ -70,7 +70,10 @@ const schema = a.schema({
     allow.guest().to(['read']),
     allow.ownerDefinedIn('authId').to(['read', 'update']),
     allow.groups(['ADMIN', 'EDITOR', 'AUTHOR']).to(['create', 'read', 'update']),
-  ]),
+  ])
+    .secondaryIndexes((index) => [
+      index("authId").queryField('listUserByAuthId'),
+    ]),
 
   article: a.model({
     id: a.id().required(),
@@ -95,6 +98,9 @@ const schema = a.schema({
     .authorization(allow => [
       allow.guest().to(['read']),
       allow.groups(['ADMIN', 'EDITOR', 'AUTHOR']).to(['create', 'read', 'update', 'delete']),
+    ])
+    .secondaryIndexes((index) => [
+      index("slug").queryField('listArticleBySlug'),
     ]),
 
   contentBlock: a.model({
@@ -161,7 +167,10 @@ const schema = a.schema({
   }).authorization(allow => [
     allow.guest().to(['read']),
     allow.groups(['ADMIN', 'EDITOR', 'AUTHOR']).to(['create', 'read', 'update', 'delete']),
-  ]),
+  ])
+    .secondaryIndexes((index) => [
+      index("slug").queryField('listCategoryBySlug'),
+    ]),
 
   articleCategory: a.model({
     id: a.id().required(),

@@ -1,4 +1,3 @@
-import Ads from "@/components/Home/Ads";
 import FavoriteArticlesSection from "@/components/Home/FavoriteArticlesSection";
 import FeaturedArticlesSection from "@/components/Home/FeaturedArticlesSection";
 import TrendingArticleSection from "@/components/Home/TrendingArticleSection";
@@ -36,7 +35,6 @@ export default function App() {
     >
       <FeaturedArticlesSection articles={featured} />
       <TrendingArticleSection articles={trending} />
-      <Ads />
       <FavoriteArticlesSection articles={favorite} />
     </SimpleLayout>
   );

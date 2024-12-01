@@ -4,7 +4,7 @@ import { generateClient } from 'aws-amplify/data';
 import { useEffect, useRef, useState } from 'react';
 
 const client = generateClient<Schema>({
-  authMode: 'userPool'
+  authMode: 'identityPool',
 });
 
 function useUsers(options?: ListOptions) {

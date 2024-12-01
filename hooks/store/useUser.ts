@@ -28,7 +28,10 @@ function useUser() {
         setLoading(true);
         setError(null);
 
-        const { data, errors } = await client.models.user.list({ filter: { authId: { eq: currentUser.authId } } });
+        const { data, errors } = await client.models.user.list({
+          filter: { authId: { eq: currentUser.authId } },
+          limit: 1,
+        });
 
         if (errors?.length) {
           throw new Error(`Error fetching user: ${errors[0].message}`);

@@ -5,6 +5,7 @@ import { Skeleton } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import ArticleCategoryComponent from '@/components/Home/ArticleCategoryComponent';
 
 interface Props {
   articles: Article[];
@@ -12,9 +13,9 @@ interface Props {
 
 const FavoriteArticlesSection: React.FC<Props> = ({ articles }) => {
   return (
-    <div className="space dark-theme bg-title-dark">
+    <div className="space dark-theme bg-title-dark mt-8">
       <div className="container">
-        <h2 className="sec-title has-line text-center">Artigos Favoritos</h2>
+        <h2 className="sec-title has-line text-center text-white">Artigos Favoritos</h2>
         <div className="row gy-4 mb-4">
           {articles.slice(0, 2).map((article) => (
             <MainFavoriteArticle key={article.id} article={article} />
@@ -71,16 +72,16 @@ const MainFavoriteArticle: React.FC<{ article: Article }> = ({ article }) => {
         </div>
         <div className="blog-content">
           {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
-          <h3 className="box-title-30">
+          <h3 className="box-title-30 text-white">
             <Link className="hover-line" href={`/article/${article.slug}`}>
               {article.title}
             </Link>
           </h3>
           <div className="blog-meta">
-            <Link href={`/author/${author.id}`}>
+            <Link href={`/autor/${author.id}`}>
               <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
             </Link>
-            <Link href={`/article/${article.slug}`}>
+            <Link href={`/publicacao/${article.slug}`}>
               <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
             </Link>
           </div>
@@ -128,58 +129,21 @@ const SecondaryFavoriteArticle: React.FC<{ article: Article }> = ({ article }) =
           <Image width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title} />
           {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
         </div>
-        <h3 className="box-title-22">
-          <Link href={`/article/${article.slug}`} className="hover-line">
+        <h3 className="box-title-22  text-white">
+          <Link href={`/publicacao/${article.slug}`} className="hover-line">
             {article.title}
           </Link>
         </h3>
         <div className="blog-meta">
-          <Link href={`/author/${author.id}`}>
+          <Link href={`/autor/${author.id}`}>
             <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
           </Link>
-          <Link href={`/article/${article.slug}`}>
+          <Link href={`/publicacao/${article.slug}`}>
             <i className="fal fa-calendar-days"></i> {formatDateNumeric(article.createdAt)}
           </Link>
         </div>
       </div>
     </div>
-  );
-};
-
-const categoryColors = [
-  "#007BFF",
-  "#E8137D",
-  "#8750A6",
-  "#4E4BD0",
-  "#00D084",
-  "#FF9500",
-  "#E7473C",
-  "#59C2D6",
-];
-
-const getRandomColor = () => categoryColors[Math.floor(Math.random() * categoryColors.length)];
-
-const ArticleCategoryComponent: React.FC<{ articleCategory: ArticleCategory }> = ({ articleCategory }) => {
-  const [category, setCategory] = useState<Category | null>(null);
-  const [color, setColor] = useState<string>(getRandomColor);
-
-  useEffect(() => {
-    (async () => {
-      if (!articleCategory) return;
-      const { data: categoryData } = await articleCategory.category();
-      setCategory(categoryData as unknown as Category);
-      setColor(getRandomColor);
-    })();
-  }, [articleCategory]);
-
-  return (
-    <Link
-      href={`/category/${category?.slug}`}
-      className="category"
-      style={{ backgroundColor: color }}
-    >
-      {category?.name || 'General'}
-    </Link>
   );
 };
 
