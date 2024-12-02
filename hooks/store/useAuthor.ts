@@ -8,7 +8,7 @@ const client = generateClient<Schema>({
 });
 
 function useAuthor(id: string) {
-  const [author, setAuthor] = useState<User[] | null>(null);
+  const [author, setAuthor] = useState<User | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function useAuthor(id: string) {
           throw new Error('Getauthor: Empty response from server');
         }
 
-        setAuthor(authorData as unknown as User[]);
+        setAuthor(authorData as unknown as User);
       } catch (err) {
         setError(new Error('Erro buscando artigo'));
         console.error(err)

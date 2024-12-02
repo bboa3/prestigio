@@ -18,7 +18,7 @@ import "@/styles/globals.css";
 dayjs.extend(timezone);
 dayjs.locale('pt-br');
 
-Amplify.configure(outputs);
+Amplify.configure(outputs as any);
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (

@@ -15,9 +15,17 @@ type ComparisonOperator =
 
 type FieldCondition = { [operator in ComparisonOperator]?: any };
 
-type FilterCondition = {
+interface FieldFilterCondition {
   [field: string]: FieldCondition | undefined;
-};
+}
+
+interface LogicFilterCondition {
+  and?: FilterCondition[];
+  or?: FilterCondition[];
+  not?: FilterCondition;
+}
+
+type FilterCondition = FieldFilterCondition | LogicFilterCondition;
 
 export interface ListOptions {
   filter?: FilterCondition;

@@ -21,7 +21,7 @@ const SimpleLayout: React.FC<Props> = ({ featuredArticles, categories, gallery, 
       <SEO description={description} keywords={keywords} robots={robots} title={title} />
 
       <Nav categories={categories} />
-      <main className='w-full min-h-screen overflow-hidden pt-12 lg:pt-32 pb-3 text-slate-800'>
+      <main className='w-full min-h-screen overflow-hidden pt-12 lg:pt-32 pb-3 text-slate-800 relative'>
         {children}
       </main>
       <Footer categories={categories} featuredArticles={featuredArticles} gallery={gallery} />
