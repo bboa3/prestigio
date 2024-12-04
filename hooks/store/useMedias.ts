@@ -1,7 +1,7 @@
 import { Schema } from '@/amplify/data/resource';
 import { ListOptions, Media } from '@/types/schema';
 import { generateClient } from 'aws-amplify/data';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const client = generateClient<Schema>({
   authMode: 'identityPool',
@@ -9,42 +9,39 @@ const client = generateClient<Schema>({
 
 function useMedias(options?: ListOptions) {
   const [medias, setMedias] = useState<Media[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [nextToken, setNextToken] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
-  const subscriptionRef = useRef<any>(null);
-
   useEffect(() => {
-    if (subscriptionRef.current) {
-      subscriptionRef.current.unsubscribe();
-      subscriptionRef.current = null;
-    }
+    const fetchMedias = async () => {
+      setLoading(true);
 
-    subscriptionRef.current = client.models.media.observeQuery(options).subscribe({
-      next: async ({ items, isSynced }) => {
-        if (!isSynced) return;
+      try {
+        const { data: mediasData, errors, nextToken: newNextToken } = await client.models.media.list(options);
 
-        try {
-          setMedias(items as Media[]);
-        } catch (err) {
-          setError(new Error('Error fetching medias'));
-          console.error(err);
+        if (errors && errors.length > 0) {
+          throw new Error(errors[0].message);
         }
-      },
-      error: (err) => {
-        setError(new Error('Erro buscando medias'));
-        console.error(err);
-      },
-    });
 
-    return () => {
-      if (subscriptionRef.current) {
-        subscriptionRef.current.unsubscribe();
-        subscriptionRef.current = null;
+        if (!mediasData) {
+          throw new Error('ListMedias: Empty response from server');
+        }
+
+        setMedias(mediasData as Media[]);
+        setNextToken(newNextToken || null);
+      } catch (err: any) {
+        setError(new Error('Erro buscando midias'));
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
+
+    fetchMedias();
   }, [options]);
 
-  return { medias, error };
+  return { medias, loading, error, nextToken };
 }
 
 export default useMedias;

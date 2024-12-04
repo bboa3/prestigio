@@ -4,7 +4,7 @@
     "editor.formatOnPaste": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit",
-        "source.organizeImports": "never"
+        "source.organizeImports": "explicit"
     },
     "diffEditor.codeLens": true,
     "github.copilot.advanced": {

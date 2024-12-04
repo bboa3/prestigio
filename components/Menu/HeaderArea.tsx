@@ -41,8 +41,14 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
             </div>
             <div className="col-auto d-none d-lg-inline-block">
               <Link href="/">
-                <div className="w-20 md:w-36 h-auto">
-                  <Image className='w-full h-full' src={logoWhiteImg} alt="Prestígio" />
+                <div>
+                  <Image
+                    src={logoWhiteImg}
+                    alt="Prestígio"
+                    width={150}
+                    height={50}
+                    className="img-fluid"
+                  />
                 </div>
               </Link>
             </div>

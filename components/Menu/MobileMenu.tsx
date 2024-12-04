@@ -1,4 +1,4 @@
-import logoImg from '@/assets/img/logo.svg';
+import logoWhiteImg from '@/assets/img/logo.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -17,8 +17,14 @@ const MobileMenu: React.FC<Props> = ({ categories }) => {
       <div className="th-menu-area text-center">
         <button className="th-menu-toggle"><i className="fal fa-times"></i></button>
         <div className="mobile-logo">
-          <Link href="home-newspaper.html">
-            <Image src={logoImg} alt="Prestígio" />
+          <Link href="/">
+            <Image
+              src={logoWhiteImg}
+              alt="Prestígio"
+              width={140}
+              height={40}
+              className="img-fluid"
+            />
           </Link>
         </div>
         <div className="th-mobile-menu">

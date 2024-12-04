@@ -1,9 +1,9 @@
+import ArticleCategoryComponent from "@/components/Category/ArticleCategoryComponent";
 import useStorage from "@/hooks/create/useStorage";
+import useMedias from "@/hooks/store/useMedias";
 import { Article, Category } from "@/types/schema";
 import { Link, Skeleton } from "@mui/material";
-import ArticleCategoryComponent from "@/components/Category/ArticleCategoryComponent";
 import Image from 'next/image';
-import useMedias from "@/hooks/store/useMedias";
 import { useMemo } from "react";
 
 const CategoryArticle: React.FC<{ article: Article, category: Category }> = ({ article, category }) => {
@@ -12,6 +12,8 @@ const CategoryArticle: React.FC<{ article: Article, category: Category }> = ({ a
   const { medias: medias } = useMedias(options);
 
   const featuredImage = medias[5];
+
+  console.log('featuredImage', featuredImage);
 
   if (!article || !featuredImage || !category) {
     return (

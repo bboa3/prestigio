@@ -1,8 +1,8 @@
 import useStorage from "@/hooks/create/useStorage";
-import { ContentBlock, Media } from "@/types/schema"
+import { ContentBlock, Media } from "@/types/schema";
 import { Skeleton } from "@mui/material";
-import React, { useEffect, useState } from "react"
 import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   block: ContentBlock
@@ -35,10 +35,10 @@ const ArticleContentBlock: React.FC<Props> = ({ block }) => {
 
   return (
     <div>
-      <h3 className="text-4xl font-bold">
+      <h3 className="">
         {block.title}
       </h3>
-      <div className="my-4 py-lg-2">
+      <div className="py-lg-2">
         {
           medias.length > 0 && medias.map((media) => (
             <Image

@@ -114,7 +114,7 @@ const ArticlePage: React.FC<Props> = ({ slug }) => {
                       {contentBlocks.map((block, index) => <ArticleContentBlock key={index} block={block} />)}
                     </div>
                     <div className="blog-tag">
-                      <h6 className="title">Related Tag :</h6>
+                      <h6 className="title">Tag relacionadas:</h6>
                       <div className="tagcloud">
                         {article.tags.map((tag, index) => (
                           <span key={index}>
@@ -130,12 +130,12 @@ const ArticlePage: React.FC<Props> = ({ slug }) => {
               <Comments comments={comments} />
               <CommentForm />
               <RelatedArticles articleCategories={articleCategories} />
-              <Sidebar
-                categories={categories}
-                featuredArticles={featured}
-                tags={article.tags}
-              />
             </div>
+            <Sidebar
+              categories={categories}
+              featuredArticles={featured}
+              tags={article.tags}
+            />
           </div>
         </div>
       </section>
