@@ -41,13 +41,13 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
             </div>
             <div className="col-auto d-none d-lg-inline-block">
               <Link href="/">
-                <div>
+                <div className='w-2'>
                   <Image
                     src={logoWhiteImg}
                     alt="Prestígio"
                     width={150}
                     height={50}
-                    className="img-fluid"
+                    className='w-full h-full object-cover'
                   />
                 </div>
               </Link>
@@ -77,7 +77,7 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
           <div className="container">
             <div className="row align-items-center justify-content-between">
               <div className="col-auto d-lg-none d-block">
-                <div className="header-logo">
+                <div className="w-2">
                   <Link href="/">
                     <Image src={logoWhiteImg} alt="Prestígio" />
                   </Link>

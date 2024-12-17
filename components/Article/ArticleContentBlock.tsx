@@ -38,21 +38,22 @@ const ArticleContentBlock: React.FC<Props> = ({ block }) => {
       <h3 className="">
         {block.title}
       </h3>
-      <div className="py-lg-2">
+      <div className="py-lg-2 d-flex flex-row gap-4 overflow-auto">
         {
           medias.length > 0 && medias.map((media) => (
-            <Image
-              key={media.id}
-              src={getUrl(media.url)}
-              alt={block.title || "Image"}
-              width={800}
-              height={500}
-              layout="responsive"
-            />
+            <div key={media.id} style={{ maxHeight: '300px', maxWidth: '300px' }}>
+              <Image
+                src={getUrl(media.url)}
+                alt={block.title || "Image"}
+                width={800}
+                height={500}
+                layout="responsive"
+              />
+            </div>
           ))
         }
       </div>
-      <p>{block.content}</p>;
+      <p>{block.content}</p>
     </div>
   )
 }

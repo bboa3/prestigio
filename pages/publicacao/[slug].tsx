@@ -78,13 +78,14 @@ const ArticlePage: React.FC<Props> = ({ slug }) => {
                   <span><i className="far fa-comments"></i>Comentários ({comments?.length || 0})</span>
                   <span><i className="far fa-book-open"></i>6 Mins Leitura</span>
                 </div>
-                <div className="w-full h-200 ove">
+                <div className="blog-img">
                   <Image
                     src={getUrl(featuredImage.url)}
                     alt={article.title}
                     width={800}
                     height={500}
                     layout="responsive"
+                    className="img-fluid"
                   />
                 </div>
                 <div className="blog-content-wrap">
