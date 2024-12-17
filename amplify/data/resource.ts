@@ -10,16 +10,15 @@ const articleStatuses = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const;
 const mediaTypes = ['IMAGE', 'VIDEO'] as const;
 
 const schema = a.schema({
-  genericAPIResponse: a.customType({
-    content: a.string()
-  }),
   addUserToGroup: a
     .mutation()
     .arguments({
       userId: a.string().required(),
       groupName: a.string().required(),
     })
-    .returns(a.ref('genericAPIResponse'))
+    .returns(a.customType({
+      content: a.string()
+    }))
     .handler(a.handler.function(addUserToGroup))
     .authorization((allow) => [allow.group('ADMIN')]),
   adminCreateUser: a
@@ -30,7 +29,9 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.group('ADMIN')])
     .handler(a.handler.function(adminCreateUser))
-    .returns(a.ref('genericAPIResponse')),
+    .returns(a.customType({
+      content: a.string()
+    })),
   addOrUpdateSearchableRecord: a
     .mutation()
     .arguments({
@@ -39,8 +40,10 @@ const schema = a.schema({
       body: a.json().required(),
     })
     .handler(a.handler.function(addOrUpdateSearchableRecord))
-    .authorization((allow) => [allow.guest()])
-    .returns(a.ref('genericAPIResponse')),
+    .authorization((allow) => [allow.groups(['ADMIN', 'EDITOR', 'AUTHOR'])])
+    .returns(a.customType({
+      content: a.string()
+    })),
   deleteSearchableRecord: a
     .mutation()
     .arguments({
@@ -48,8 +51,10 @@ const schema = a.schema({
       objectID: a.string().required(),
     })
     .handler(a.handler.function(deleteSearchableRecord))
-    .authorization((allow) => [allow.guest()])
-    .returns(a.ref('genericAPIResponse')),
+    .authorization((allow) => [allow.groups(['ADMIN', 'EDITOR', 'AUTHOR'])])
+    .returns(a.customType({
+      content: a.string()
+    })),
 
   user: a.model({
     id: a.id().required(),
@@ -98,9 +103,6 @@ const schema = a.schema({
     .authorization(allow => [
       allow.guest().to(['read']),
       allow.groups(['ADMIN', 'EDITOR', 'AUTHOR']).to(['create', 'read', 'update', 'delete']),
-    ])
-    .secondaryIndexes((index) => [
-      index("slug").queryField('listArticleBySlug'),
     ]),
 
   contentBlock: a.model({
