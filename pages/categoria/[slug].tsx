@@ -4,10 +4,8 @@ import SimpleLayout from '@/components/Layout/SimpleLayout';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import useCategories from '@/hooks/store/useCategories';
 import useCategory from '@/hooks/store/useCategory';
-import useFavoriteArticles from '@/hooks/store/useFavoriteArticles';
 import useFeaturedArticles from '@/hooks/store/useFeaturedArticles';
 import useMedias from '@/hooks/store/useMedias';
-import useTrendingArticles from '@/hooks/store/useTrendingArticles';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import React, { useMemo } from 'react';
 

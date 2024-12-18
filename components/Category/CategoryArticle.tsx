@@ -8,12 +8,10 @@ import { useMemo } from "react";
 
 const CategoryArticle: React.FC<{ article: Article, category: Category }> = ({ article, category }) => {
   const { getUrl } = useStorage();
-  const options = useMemo(() => ({ filter: { articleId: { eq: article?.id } } }), [article?.id]);
-  const { medias: medias } = useMedias(options);
+  const options = useMemo(() => ({ filter: { articleId: { eq: article?.id } }, limit: 2 }), [article?.id]);
+  const { medias } = useMedias(options);
 
-  const featuredImage = medias[5];
-
-  console.log('featuredImage', featuredImage);
+  const featuredImage = medias[0];
 
   if (!article || !featuredImage || !category) {
     return (

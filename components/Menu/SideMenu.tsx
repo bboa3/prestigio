@@ -1,40 +1,19 @@
-import recentPost1Img from "@/assets/img/blog/recent-post-1-1.jpg";
-import recentPost2Img from "@/assets/img/blog/recent-post-1-2.jpg";
-import recentPost3Img from "@/assets/img/blog/recent-post-1-3.jpg";
-import recentPost4Img from "@/assets/img/blog/recent-post-1-4.jpg";
 import footerLogoBlackImg from "@/assets/img/logo-footer-black.svg";
 import footerLogoImg from "@/assets/img/logo.svg";
+import useStorage from "@/hooks/create/useStorage";
+import { Article, Media } from "@/types/schema";
+import { formatDateNumeric } from "@/utils/date/formatter";
+import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const recentPosts = [
-  {
-    id: 1,
-    title: "Fitness: Your journey to Better, stronger you.",
-    date: "21 June, 2023",
-    image: recentPost1Img,
-  },
-  {
-    id: 2,
-    title: "Embrace the game Ignite your sporting",
-    date: "22 June, 2023",
-    image: recentPost2Img,
-  },
-  {
-    id: 3,
-    title: "Revolutionizing lives Through technology",
-    date: "23 June, 2023",
-    image: recentPost3Img,
-  },
-  {
-    id: 4,
-    title: "Enjoy the Virtual Reality embrace the",
-    date: "25 June, 2023",
-    image: recentPost4Img,
-  },
-];
+interface Props {
+  featuredArticles: Article[]
+}
 
-const SideMenu: React.FC = () => {
+const SideMenu: React.FC<Props> = ({ featuredArticles }) => {
+
   return (
     <div>
       <div className="sidemenu-wrapper sidemenu-1 d-none d-md-block ">
@@ -62,25 +41,7 @@ const SideMenu: React.FC = () => {
           <div className="widget  ">
             <h3 className="widget_title">Publicações recentes</h3>
             <div className="recent-post-wrap">
-              {
-                recentPosts.map((post) => (
-                  <div key={post.id} className="recent-post">
-                    <div className="media-img">
-                      <Link href={`/publicacao/${post.id}`}>
-                        <Image src={post.image} alt="Blog Image" />
-                      </Link>
-                    </div>
-                    <div className="media-body">
-                      <h4 className="post-title">
-                        <Link className="hover-line" href={`/publicacao/${post.id}`}>{post.title}</Link>
-                      </h4>
-                      <div className="recent-post-meta">
-                        <Link href={`/publicacao/${post.id}`}><i className="fal fa-calendar-days"></i>{post.date}</Link>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              }
+              {featuredArticles.map((article) => <RecentArticle key={article.slug} article={article} />)}
             </div>
           </div>
           <div className="widget newsletter-widget  ">
@@ -109,5 +70,56 @@ const SideMenu: React.FC = () => {
     </div >
   )
 };
+
+const RecentArticle: React.FC<{ article: Article }> = ({ article }) => {
+  const [featuredImage, setFeaturedImage] = useState<Media | null>(null);
+  const { getUrl } = useStorage();
+
+  useEffect(() => {
+    (async () => {
+      if (!article) return;
+
+      const { data: featuredImageData } = await article.featuredImage();
+
+      setFeaturedImage(featuredImageData as unknown as Media);
+    })();
+  }, [article]);
+
+  if (!article || !featuredImage) {
+    return (
+      <div className="w-full flex items-start flex-col">
+        <Skeleton className="my-2" animation="wave" variant="rounded" width="100%" height={100} />
+        <Skeleton variant="rounded" width="100%" height={60} />
+      </div>
+    );
+  }
+
+  return (
+    <div key={article.id} className="recent-post">
+      <div className="media-img">
+        <Link href={`/publicacao/${article.slug}`}>
+          <Image
+            className='w-full h-full object-cover'
+            width={600}
+            height={600}
+            src={getUrl(featuredImage.url)}
+            alt={article.title || 'Imagem do artigo'}
+          />
+        </Link>
+      </div>
+      <div className="media-body">
+        <h4 className="post-title">
+          <Link className="hover-line" href={`/publicacao/${article.slug}`}>{article.title}</Link>
+        </h4>
+        <div className="recent-post-meta">
+          <Link href={`/publicacao/${article.slug}`}>
+            <i className="fal fa-calendar-days"></i>
+            {formatDateNumeric(article.publishedAt)}
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default SideMenu;

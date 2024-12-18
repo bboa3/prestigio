@@ -1,4 +1,5 @@
 import logoWhiteImg from '@/assets/img/logo.svg';
+import SearchProvider from '@/components/Search';
 import { formatDateFullTextual } from '@/utils/date/formatter';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const HeaderArea: React.FC<Props> = ({ categories }) => {
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const today = formatDateFullTextual(new Date());
 
   return (
@@ -41,15 +43,13 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
             </div>
             <div className="col-auto d-none d-lg-inline-block">
               <Link href="/">
-                <div className='w-2'>
-                  <Image
-                    src={logoWhiteImg}
-                    alt="Prestígio"
-                    width={150}
-                    height={50}
-                    className='w-full h-full object-cover'
-                  />
-                </div>
+                <Image
+                  src={logoWhiteImg}
+                  alt="Prestígio"
+                  width={150}
+                  height={50}
+                  layout="fixed"
+                />
               </Link>
             </div>
             <div className="col-auto text-center text-md-end">
@@ -77,11 +77,15 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
           <div className="container">
             <div className="row align-items-center justify-content-between">
               <div className="col-auto d-lg-none d-block">
-                <div className="w-2">
-                  <Link href="/">
-                    <Image src={logoWhiteImg} alt="Prestígio" />
-                  </Link>
-                </div>
+                <Link href="/">
+                  <Image
+                    src={logoWhiteImg}
+                    alt="Prestígio"
+                    width={100}
+                    height={33}
+                    layout='fixed'
+                  />
+                </Link>
               </div>
               <div className="col-auto">
                 <nav className="main-menu d-none d-lg-inline-block">
@@ -108,9 +112,14 @@ const HeaderArea: React.FC<Props> = ({ categories }) => {
               </div>
               <div className="col-auto">
                 <div className="header-button">
-                  <button type="button" className="simple-icon searchBoxToggler">
+                  <button
+                    type="button"
+                    className="simple-icon searchBoxToggler"
+                    onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  >
                     <i className="far fa-search"></i>
                   </button>
+                  <SearchProvider isOpen={isSearchOpen} setIsOpen={setIsSearchOpen} indexName={'articles'} />
                   <button type="button" className="th-menu-toggle d-block d-lg-none">
                     <i className="far fa-bars"></i>
                   </button>

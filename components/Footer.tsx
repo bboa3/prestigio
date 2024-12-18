@@ -26,7 +26,13 @@ const Footer: React.FC<Props> = ({ categories, featuredArticles, gallery }) => {
                 <div className="th-widget-about">
                   <div className="w-32 h-auto pb-6">
                     <Link href="/">
-                      <Image className='w-full h-full object-cover' src={logoFooterImg} alt="Prestígio" />
+                      <Image
+                        src={logoFooterImg}
+                        alt="Prestígio"
+                        width={150}
+                        height={50}
+                        layout="fixed"
+                      />
                     </Link>
                   </div>
                   <p className="about-text">A revista Prestígio cobre uma vasta gama de temas, incluindo, entre outros, moda, estilo de vida, saúde, política, negócios, entretenimento, desporto e ciência.</p>

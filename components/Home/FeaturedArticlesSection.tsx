@@ -1,11 +1,11 @@
+import ArticleCategoryComponent from '@/components/Home/ArticleCategoryComponent';
 import useStorage from '@/hooks/create/useStorage';
-import { Article, ArticleCategory, Category, Media, User } from '@/types/schema';
+import { Article, ArticleCategory, Media, User } from '@/types/schema';
 import { formatDateNumeric } from '@/utils/date/formatter';
 import { Skeleton } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import ArticleCategoryComponent from '@/components/Home/ArticleCategoryComponent';
 
 interface Props {
   articles: Article[];
@@ -71,7 +71,13 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
     <div className="dark-theme img-overlay2">
       <div className="blog-style3">
         <div className="blog-img">
-          <Image className='w-full h-full object-cover' width={600} height={600} src={getUrl(featuredImage.url)} alt={article.title || 'Imagem do artigo'} />
+          <Image
+            className='w-full h-full object-cover'
+            width={600}
+            height={600}
+            src={getUrl(featuredImage.url)}
+            alt={article.title || 'Imagem do artigo'}
+          />
         </div>
         <div className="blog-content">
           {categories[0] && <ArticleCategoryComponent articleCategory={categories[0]} />}
@@ -81,7 +87,7 @@ const MainFeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
             </Link>
           </h3>
           <div className="blog-meta">
-            <Link href={`/autor/${author.id}`}>
+            <Link href={`/autor/${author.id}`} className="link-underline-opacity-0">
               <i className="far fa-user"></i> Por - {author.name || 'Desconhecido'}
             </Link>
             <Link href={`/publicacao/${article.slug}`}>
