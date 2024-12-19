@@ -12,40 +12,34 @@ export interface SearchProviderProps {
 const SearchProvider: React.FC<SearchProviderProps> = ({ isOpen, setIsOpen, indexName }) => {
 
   return (
-    <div
-      className={`${isOpen ? 'block' : 'hidden'} w-screen h-screen absolute top-0 left-0 flex justify-center items-center`}
-    >
+    <div className={`${isOpen ? 'd-block' : 'd-none'} position-fixed w-100 h-100 top-0 start-0 d-flex justify-content-center align-items-center`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         type="button"
-        className='w-full h-full cursor-default backdrop-blur-sm bg-slate-900/30 z-0'
+        className='w-100 h-100 cursor-default backdrop-blur-sm bg-slate-900-30 z-0'
       ></button>
 
-      <div className='w-[90%] md:w-[50%] lg:w-[60%] min-h-[40%] max-h-[84%] md:max-h-[80%] p-5 md:p-6 absolute rounded-lg left-1/2 top-6 md:top-24 z-20 -translate-x-1/2 bg-white drop-shadow-2xl overflow-hidden'>
-        <InstantSearch
-          indexName={indexName}
-          searchClient={searchClient}
-        >
+      <div className="news-search-box">
+        <InstantSearch indexName={indexName} searchClient={searchClient}>
           <Configure hitsPerPage={6} />
           <SearchBox
             classNames={{
-              root: 'w-full h-full',
-              form: 'w-full h-full relative',
-              input: 'w-full h-7 pl-8 placeholder:pl-1 placeholder:text-slate-500 border-0 border-b border-slate-400 bg-transparent text-slate-600 text-sm focus:ring-0 focus:border-slate-500 focus:outline-none',
-              submitIcon: 'absolute left-0 top-1 w-5 h-5 ml-1 text-slate-300 fill-slate-300 hover:fill-slate-400 rounded-lg cursor-pointer hover:bg-sky-0',
-              resetIcon: 'absolute right-2 top-2 w-3 h-3 text-slate-400 fill-slate-400 hover:fill-slate-500 cursor-pointer hover:bg-sky-0'
+              root: 'w-100',
+              form: 'w-100 position-relative',
+              input: 'news-search-input',
+              submitIcon: 'news-search-submit-icon',
+              resetIcon: 'news-search-reset-icon',
             }}
-            placeholder='Pesquisar...'
+            placeholder="Pesquisar..."
           />
           <Hits
             hitComponent={Hit}
             classNames={{
-              root: 'w-full h-full py-4'
+              root: 'news-search-hits',
             }}
           />
-
         </InstantSearch>
-        <div className='h-4 w-full bg-white absolute left-0 bottom-0 z-10'></div>
+        <div className="h-4 w-100 bg-white position-absolute bottom-0 start-0 z-10"></div>
       </div>
     </div>
   )
