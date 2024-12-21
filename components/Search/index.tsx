@@ -1,7 +1,8 @@
 import Hit from '@/components/Search/Hit'
+import InfiniteHits from '@/components/Search/InfiniteHits'
 import { searchClient } from '@/utils/search-client'
 import React from 'react'
-import { Configure, Hits, InstantSearch, SearchBox } from 'react-instantsearch-hooks-web'
+import { Configure, InstantSearch, SearchBox } from 'react-instantsearch-hooks-web'
 
 export interface SearchProviderProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -32,12 +33,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ isOpen, setIsOpen, inde
             }}
             placeholder="Pesquisar..."
           />
-          <Hits
-            hitComponent={Hit}
-            classNames={{
-              root: 'news-search-hits',
-            }}
-          />
+          <InfiniteHits hitComponent={Hit} />
         </InstantSearch>
         <div className="h-4 w-100 bg-white position-absolute bottom-0 start-0 z-10"></div>
       </div>
