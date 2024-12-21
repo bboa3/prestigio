@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import useStorage from "@/hooks/create/useStorage";
+import useAuthor from "@/hooks/store/useAuthor";
 import { Comment } from "@/types/schema";
 import { formatDateNumeric } from "@/utils/date/formatter";
-import useAuthor from "@/hooks/store/useAuthor";
+import Image from "next/image";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   comments: Comment[];
@@ -42,7 +42,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
 
       setReplies(repliesData as unknown as Comment[]);
     })();
-  }, [replies]);
+  }, [replies, comment]);
 
   if (!author) return null;
 

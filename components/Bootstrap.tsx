@@ -6,7 +6,6 @@ const Bootstrap: React.FC = () => {
         // @ts-ignore
         import("bootstrap/dist/js/bootstrap.bundle.min.js");
         // @ts-ignore
-        import('@/assets/js/main.js');
     }, [])
 
     return <></>

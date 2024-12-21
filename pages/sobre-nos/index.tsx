@@ -6,7 +6,6 @@ import story2Img from "@/assets/img/normal/story_2.jpg";
 import story3Img from "@/assets/img/normal/story_3.jpg";
 import story4Img from "@/assets/img/normal/story_4.jpg";
 import storyBg2Img from "@/assets/img/normal/story_bg_1.svg";
-import SimpleLayout from "@/components/Layout/SimpleLayout";
 import Image from 'next/image';
 import Link from "next/link";
 import React from 'react';
@@ -33,7 +32,7 @@ const AboutUs: React.FC = () => {
               <div className="title-area mb-32">
                 <span className="sub-title">Sobre nós</span>
                 <h2 className="sec-title2">Over 25 years, we have been delivering real news</h2>
-                <p className="sec-text">Suggests that the entity or organization has a longstanding history of providing trustworthy and reliable news coverage. The phrase "Over 25 years" indicates a long-established presence in the industry, which can instill confidence in the audience.</p>
+                <p className="sec-text">Suggests that the entity or organization has a longstanding history of providing trustworthy and reliable news coverage. The phrase &quot;over 25 years&quot; indicates a long-established presence in the industry, which can instill confidence in the audience.</p>
               </div>
               <div className="checklist mt-n2 mb-35">
                 <ul>
