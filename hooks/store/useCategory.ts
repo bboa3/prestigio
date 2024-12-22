@@ -22,20 +22,24 @@ function useCategory(idOrSlug: string) {
               { slug: { eq: idOrSlug } },
             ],
           },
+          limit: 2,
         });
 
         if (errors) {
           throw new Error(errors[0].message);
         }
 
-        if (!categoryDataList || categoryDataList.length === 0) {
+        if (!categoryDataList[0]) {
           throw new Error('Category not found');
         }
 
-        const categoryData = categoryDataList[0] as unknown as Category;
+        const categoryData = categoryDataList[0];
         setCategory(categoryData);
 
-        const { data: articlesData } = await categoryData.articles();
+        const { data: articleCategoriesData } = await categoryData.articles();
+
+        const articlesResult = await Promise.all(articleCategoriesData.map(articleCategory => client.models.article.get({ id: articleCategory.articleId })));
+        const articlesData = articlesResult.map(result => result.data)
 
         setArticles(articlesData as unknown as Article[]);
       } catch (err) {

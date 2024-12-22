@@ -28,8 +28,6 @@ function useMedias(options?: ListOptions) {
           throw new Error('ListMedias: Empty response from server');
         }
 
-        console.log(mediasData);
-
         setMedias(mediasData as Media[]);
         setNextToken(newNextToken || null);
       } catch (err: any) {
