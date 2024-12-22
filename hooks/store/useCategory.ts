@@ -1,5 +1,5 @@
 import { Schema } from '@/amplify/data/resource';
-import { Article, Category, ArticleCategory, Media, User } from '@/types/schema';
+import { Article, Category } from '@/types/schema';
 import { generateClient } from 'aws-amplify/data';
 import { useEffect, useState } from 'react';
 

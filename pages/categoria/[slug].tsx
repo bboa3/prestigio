@@ -29,7 +29,7 @@ const Category: React.FC<Props> = ({ slug }) => {
   return (
     <SimpleLayout
       title={category.name}
-      description='Revista Prestígio - Revista de economia, negócios, desporto e cultura em moçambique'
+      description={category.description || 'Revista Prestígio - Revista de economia, negócios, desporto e cultura em moçambique'}
       keywords='Revista Prestígio, Revista, economia, negócios, desporto, cultura, moçambique'
       categories={categories}
       featuredArticles={featured}

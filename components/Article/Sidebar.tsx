@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import useStorage from "@/hooks/create/useStorage";
-import { Article, ArticleCategory, Category, Media, User } from "@/types/schema";
+import { Article, Category, Media } from "@/types/schema";
 import { formatDateNumeric } from "@/utils/date/formatter";
-import Link from "next/link";
 import { Skeleton } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   categories: Category[];
@@ -69,9 +69,7 @@ const FeaturedArticle: React.FC<{ article: Article }> = ({ article }) => {
     (async () => {
       if (!article) return;
 
-      const [{ data: featuredImageData }] = await Promise.all([
-        article.featuredImage(),
-      ]);
+      const { data: featuredImageData } = await article.featuredImage()
 
       setFeaturedImage(featuredImageData as unknown as Media);
     })();

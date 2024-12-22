@@ -4,7 +4,6 @@ import "@/assets/css/magnific-popup.min.css";
 import '@/assets/css/slick.min.css';
 import "@/assets/css/style.css";
 import { faFont, leagueSpartan } from "@/assets/fonts";
-import { AuthProvider } from "@/Context/AuthContext";
 import { Amplify } from "aws-amplify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import dayjs from 'dayjs';
@@ -19,10 +18,8 @@ Amplify.configure(outputs as any);
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <div className={`${faFont.variable} ${leagueSpartan.className} font-sans`}>
-        <Component {...pageProps} />
-      </div>
-    </AuthProvider>
+    <div className={`${faFont.variable} ${leagueSpartan.className} font-sans`}>
+      <Component {...pageProps} />
+    </div>
   )
 }

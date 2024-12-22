@@ -3,7 +3,6 @@ import SEO from '@/components/Layout/SEO'
 import Nav from '@/components/Menu'
 import { Article, Category, Media } from '@/types/schema'
 import React, { ReactNode } from 'react'
-import TemplateScripts from '../TemplateScripts'
 
 interface Props {
   description: string
@@ -26,8 +25,6 @@ const SimpleLayout: React.FC<Props> = ({ featuredArticles, categories, gallery, 
         {children}
       </main>
       <Footer categories={categories} featuredArticles={featuredArticles} gallery={gallery} />
-
-      <TemplateScripts />
     </>
   )
 }

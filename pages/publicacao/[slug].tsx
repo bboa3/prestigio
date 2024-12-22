@@ -68,7 +68,7 @@ const ArticlePage: React.FC<Props> = ({ slug }) => {
                 }
                 <h2 className="fs-5 fw-bold">{article.title}</h2>
                 <div className="blog-meta">
-                  <Link href={`/author/${author.id}`} className="author">
+                  <Link href={`/autor/${author.id}`} className="author">
                     <i className="far fa-user"></i>Por - {author.name}
                   </Link>
                   <span>
@@ -91,7 +91,7 @@ const ArticlePage: React.FC<Props> = ({ slug }) => {
                 <div className="blog-content-wrap">
                   <div className="share-links-wrap">
                     <div className="share-links">
-                      <span className="share-links-title">Share Post:</span>
+                      <span className="share-links-title">Partilhar publicação:</span>
                       <div className="multi-social">
                         <Link target="_blank" rel="noreferrer" href="https://web.facebook.com/prestigiomz/?_rdc=1&_rdr"><i className="fab fa-facebook-f"></i></Link>
                         <Link target="_blank" rel="noreferrer" href="https://www.twitter.com/"><i className="fab fa-twitter"></i></Link>

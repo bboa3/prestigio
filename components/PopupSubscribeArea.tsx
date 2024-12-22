@@ -22,7 +22,7 @@ const PopupSubscribeArea: React.FC = () => {
               </form>
               <div className="mt-30">
                 <input type="checkbox" id="destroyPopup" />
-                <label htmlFor="destroyPopup">I don&apos;'t want to see this popup again.</label>
+                <label htmlFor="destroyPopup">I don&apos;t want to see this popup again.</label>
               </div>
             </div>
           </div>
