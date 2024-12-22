@@ -28,7 +28,7 @@ const Author: React.FC<Props> = ({ id }) => {
       status: { eq: ArticleStatus.PUBLISHED },
       authorId: { eq: id },
     },
-  }), []);
+  }), [id]);
 
   const { articles } = useArticles(articleOptions);
 

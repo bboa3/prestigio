@@ -20,7 +20,7 @@ function useFavoriteArticles(options?: ListOptions) {
       publishedAt: publishedAtFilter
     },
     nextToken: options?.nextToken,
-  }), []);
+  }), [options]);
 
   const { articles, loading, error, nextToken } = useArticles(featuredOption);
 

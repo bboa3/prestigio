@@ -20,7 +20,7 @@ function useFeaturedArticles(options?: ListOptions) {
       publishedAt: publishedAtFilter
     },
     nextToken: options?.nextToken,
-  }), []);
+  }), [options]);
 
   return useArticles(featuredOption);
 }
